@@ -1,0 +1,113 @@
+# North Seattle College, CSC 110
+# Week 7 lab
+# Author: Elliot Duncan
+# Email: elliot.duncan@seattleschools.org
+
+def main():
+    global products_list
+    #list of initial products
+    products_list = [['Name', 'UPC', 'Price in USD', 'Ammount of product'], ['Milk', "95520", "3.27", "20"], ['Eggs', "55504", "2.97", "15"], ['Bread', "57971", "2.78", "20"], ['Apples', "19791", "0.78", "70"], ['Cheese Bits', "32510", "2.99", "25"], ['Cheese Bytes', "84159", "23.92", "10"]]
+
+    #shows initial startup screen
+    print("""Welcome to Guido's Grocery's Item Database
+
+Enter 1 to display the table of our products
+Enter 2 to add a product
+Enter 3 to caclulate the average cost of the items
+Enter 4 to caclulate the total number of individual items
+Enter 0 to exit the program""")
+    selection_number = int(input("What would you like to do?: "))
+
+    if selection_number == 1:
+        print_product_table()
+    elif selection_number == 2:
+        add_to_list()
+    elif selection_number == 3:
+        calculate_average_cost()
+    elif selection_number == 4:
+        calculate_total_stock()
+    elif selection_number == 0:
+        pass
+    else: 
+        print("""
+
+ERROR: Invalid input""")
+
+    #loops back if selection number 1 to 4
+    while selection_number != 0:
+        print("""Welcome to Guido's Grocery's Item Database
+
+Enter 1 to display the table of our products
+Enter 2 to add a product
+Enter 3 to caclulate the average cost of the items
+Enter 4 to caclulate the total number of individual items
+Enter 0 to exit the program""")
+        selection_number = int(input("What would you like to do?: "))
+            
+        if selection_number == 1:
+            print_product_table()
+        elif selection_number == 2:
+            add_to_list()
+        elif selection_number == 3:
+            calculate_average_cost()
+        elif selection_number == 4:
+            calculate_total_stock()
+        elif selection_number == 0:
+            pass
+        else: 
+            print("""
+
+ERROR: Invalid input""")
+
+
+#displays list of products
+def print_product_table():
+    length_list = [len(element) for row in products_list for element in row]
+    column_width = max(length_list)
+    for row in products_list:
+        row = "".join(element.ljust(column_width + 2) for element in row)
+        print(row)
+    input("Press enter to continue: ")
+
+#adds something to list
+def add_to_list():
+    global products_list
+    added_product = []
+    product_name = input("please enter a product name: ")
+    product_upc = input("please enter a product UPC: ")
+    product_price = input("please enter a product price (in USD): ")
+    product_number = input("please enter the number of the product in stock: ")
+    added_product.append(product_name)
+    added_product.append(product_upc)
+    added_product.append(product_price)
+    added_product.append(product_number)
+    products_list.append(added_product)
+
+#calculate average cost of items
+def calculate_average_cost():
+    total_cost = 0
+    list_number = -1
+    for item in products_list:
+        try:
+            total_cost += float(products_list[list_number][2])
+            list_number += 1
+        except: 
+            list_number += 1
+    average = total_cost / list_number
+    print("The average cost of the items in stock is", average)
+    input("Press enter to continue: ")
+
+#Prints out the total ammount of items in stock
+def calculate_total_stock():
+    total_items = 0
+    list_number = 0
+    for item in products_list:
+        try:
+            total_items += int(products_list[list_number][3])
+            list_number += 1
+        except: #exepts first iteration bc it's a string that doesnt contain numbers and otherwise this wouldnt work. I could just skip it but that seemed less snazzy
+            list_number += 1
+    print("The total number of items currently in stock is", total_items)
+    input("Press enter to continue: ")
+#calls main
+main()
